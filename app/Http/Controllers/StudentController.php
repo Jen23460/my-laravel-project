@@ -29,4 +29,28 @@ class StudentController extends Controller
         Student::create($request->all());
         return redirect()->route('students.index')->with('success', 'Student added successfully.');
     }
+
+    public function edit(Student $student)
+    {
+        return view('students.edit', compact('student'));
+    }
+
+    public function update(Request $request, Student $student)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:students,email,' . $student->id,
+            'phone' => 'nullable'
+        ]);
+
+        $student->update($request->all());
+        return redirect()->route('students.index')->with('success', 'Student updated successfully.');
+    }
+
+    public function destroy(Student $student)
+    {
+        $student->delete();
+        return redirect()->route('students.index')->with('success', 'Student deleted successfully.');
+    }
+    
 }

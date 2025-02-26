@@ -1,28 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Students</title>
-</head>
-<body>
-    <h1>Students List</h1>
-    <a href="{{ route('students.create') }}">Add Student</a>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-        </tr>
-        @foreach ($students as $student)
-        <tr>
-            <td>{{ $student->id }}</td>
-            <td>{{ $student->name }}</td>
-            <td>{{ $student->email }}</td>
-            <td>{{ $student->phone }}</td>
-        </tr>
-        @endforeach
-    </table>
-</body>
-</html>
+@extends('layouts.app')
+
+@section('content')
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Students List</h2>
+
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{{ route('students.create') }}" class="btn btn-primary">➕ Add Student</a>
+    </div>
+
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($students as $student)
+                    <tr>
+                        <td>{{ $student->name }}</td>
+                        <td>{{ $student->email }}</td>
+                        <td>{{ $student->phone ?? 'N/A' }}</td>
+                        <td>
+                            <a href="{{ route('students.edit', $student->id) }}" class="btn btn-sm btn-warning">✏️ Edit</a>
+                            
+                            <form action="{{ route('students.destroy', $student->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this student?')">
+                                    🗑️ Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endsection

@@ -1,24 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Student</title>
-</head>
-<body>
-    <h1>Add Student</h1>
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h2>Add Student</h2>
+    
     <form action="{{ route('students.store') }}" method="POST">
         @csrf
-        <label>Name:</label>
-        <input type="text" name="name" required>
-        <br>
-        <label>Email:</label>
-        <input type="email" name="email" required>
-        <br>
-        <label>Phone:</label>
-        <input type="text" name="phone">
-        <br>
-        <button type="submit">Save</button>
+        <div class="mb-3">
+            <label>Name</label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Phone</label>
+            <input type="text" name="phone" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
     </form>
-</body>
-</html>
+</div>
+
